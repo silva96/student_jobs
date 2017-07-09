@@ -12,11 +12,11 @@ module StudentJobs
     config.generators do |g|
       g.test_framework :rspec,
         fixtures: true,
-        view_specs: false,
+        view_specs: true,
         helper_specs: false,
-        routing_specs: false,
-        controller_specs: false,
-        request_specs: false
+        routing_specs: true,
+        controller_specs: true,
+        request_specs: true
       g.fixture_replacement :factory_girl, dir: "spec/factories"
     end
 
@@ -26,5 +26,7 @@ module StudentJobs
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    config.i18n.default_locale = :es
   end
 end
