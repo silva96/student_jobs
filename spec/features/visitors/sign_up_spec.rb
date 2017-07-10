@@ -20,7 +20,7 @@ feature 'Sign Up', :devise do
   #   Then I see an invalid email message
   scenario 'visitor cannot sign up with invalid email address' do
     sign_up_with('bogus', 'please123', 'please123')
-    expect(page).to have_content 'Email is invalid'
+    expect(page).to have_content "Email #{I18n.t('errors.messages.invalid')}"
   end
 
   # Scenario: Visitor cannot sign up without password
@@ -29,7 +29,7 @@ feature 'Sign Up', :devise do
   #   Then I see a missing password message
   scenario 'visitor cannot sign up without password' do
     sign_up_with('test@example.com', '', '')
-    expect(page).to have_content "Password can't be blank"
+    expect(page).to have_content "Password #{I18n.t('errors.messages.blank')}"
   end
 
   # Scenario: Visitor cannot sign up with a short password
@@ -37,8 +37,9 @@ feature 'Sign Up', :devise do
   #   When I sign up with a short password
   #   Then I see a 'too short password' message
   scenario 'visitor cannot sign up with a short password' do
-    sign_up_with('test@example.com', '12345', '12345')
-    expect(page).to have_content "Password is too short"
+    password = '12345'
+    sign_up_with('test@example.com', password, password)
+    expect(page).to have_content "Password #{I18n.t('errors.messages.too_short.other', count: Devise.password_length.first)}"
   end
 
   # Scenario: Visitor cannot sign up without password confirmation
@@ -47,7 +48,7 @@ feature 'Sign Up', :devise do
   #   Then I see a missing password confirmation message
   scenario 'visitor cannot sign up without password confirmation' do
     sign_up_with('test@example.com', 'please123', '')
-    expect(page).to have_content "Password confirmation doesn't match"
+    expect(page).to have_content "Password confirmation #{I18n.t('errors.messages.confirmation')}"
   end
 
   # Scenario: Visitor cannot sign up with mismatched password and confirmation
@@ -56,7 +57,7 @@ feature 'Sign Up', :devise do
   #   Then I should see a mismatched password message
   scenario 'visitor cannot sign up with mismatched password and confirmation' do
     sign_up_with('test@example.com', 'please123', 'mismatch')
-    expect(page).to have_content "Password confirmation doesn't match"
+    expect(page).to have_content "Password confirmation #{I18n.t('errors.messages.confirmation')}"
   end
 
 end
